@@ -11,7 +11,7 @@ public class IteratorExample {
         Methods:- 
                   hasNext();
                   next();
-                  remove(): when this method is used it remove the element on which next() method is applied
+                  remove(): removes the last element returned by next() method .
                            if this is used before the the next() method then it will throw an exception
 
         */
@@ -28,7 +28,7 @@ public class IteratorExample {
             if(ele==1){
                 it.remove();
             }
-            
+            it.
         }
         System.out.println(ls);
         
