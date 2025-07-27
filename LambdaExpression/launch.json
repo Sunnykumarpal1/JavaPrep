@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch Main",
+      "request": "launch",
+      "mainClass": "ExceptionHandling",       // Make sure this matches your class name
+      "args": "Sunny Java 42"    // Your command-line arguments here
+    }
+  ]
+}
