@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ListIteratorExample",
+            "request": "launch",
+            "mainClass": "ListIteratorExample",
+            "projectName": "Java Practice_364340be"
+        },
+        {
+            "type": "java",
             "name": "IteratorExample",
             "request": "launch",
             "mainClass": "IteratorExample",
