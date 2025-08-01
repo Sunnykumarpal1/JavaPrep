@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class start {
+public class Jdbc_api {
 
     public static void main(String[] args) {
         /*
@@ -44,7 +44,7 @@ public class start {
 
              //  connection -> url, username, password
             // url format-> jdbc api: providing the implmentation ://https: ip adddress: portnumber
-            String url="jdbc:MySql://https:localhost:3306/";
+            String url="jdbc:MySql://https:localhost:3306/jdbc";
             String user="root";
             String password="123456";
             Connection connection = DriverManager.getConnection(url,user,password);

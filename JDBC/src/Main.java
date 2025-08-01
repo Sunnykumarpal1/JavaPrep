@@ -35,9 +35,10 @@ public class Main {
             4. execute query
             5. Display result
         */
-        // ladoing an driver
+
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            // ladoing an driver is not required from 1.6
+//            Class.forName("com.mysql.cj.jdbc.Driver");
 
 
             //  connection -> url, username, password
@@ -49,6 +50,7 @@ public class Main {
 
             // create statement
             Statement st=connection.createStatement();
+
 
             // query
             String query="select * from STUDENT";
