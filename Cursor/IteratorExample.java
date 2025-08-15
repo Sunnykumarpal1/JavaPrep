@@ -28,7 +28,7 @@ public class IteratorExample {
             if(ele==1){
                 it.remove();
             }
-            it.
+            it.next();
         }
         System.out.println(ls);
         
