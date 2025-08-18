@@ -1,6 +1,6 @@
 import java.util.function.Function;
 
-Comparable
+
  interface Check {
     public void Display(String n);
 }
