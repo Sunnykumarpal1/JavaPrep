@@ -39,6 +39,7 @@ public class FirstServlet extends HttpServlet {
 
         pw.print("<a href='index.html'>Register User</a><br><br>");
         pw.print("<a href='register'>View All Users</a>");
+        
     }
 }
 
