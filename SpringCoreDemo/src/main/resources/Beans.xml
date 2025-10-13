@@ -7,14 +7,19 @@
     <bean id="evEngine" class="org.example.evSeriesEngine"/>
     <bean id="kengine" class="org.example.kSeriesEngine"/>
 <!-- example of constructor injection-->
-  <!--
-  <bean id="car" class="org.example.Car" >
+
+  <bean id="car" class="org.example.Car" init-method="init" destroy-method="destroy" >
         <constructor-arg name="engine" ref="kengine" />
-    </bean>   -->
+    </bean>
+
     <!-- example of setter injection-->
+    <!--
     <bean id="car" class="org.example.Car" scope="prototype">
         <property name="engine" ref="evEngine"/>
         <constructor-arg name="engine" ref="kengine"/>
     </bean>
+    -->
+
+<!--    <bean id="truck" class="org.example.Truck" autowire="byType"/>-->
 
 </beans>

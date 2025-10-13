@@ -24,6 +24,13 @@ public class Car {
         System.out.println("we are starting to drive");
         engine.start();
     }
+    public void init(){
+        System.out.println("we are in init of the car clas");
+    }
+    public  void destroy(){
+        System.out.println("we are in the destroy of car class");
+    }
+
 
     @Override
     public String toString() {

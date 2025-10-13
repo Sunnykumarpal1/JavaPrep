@@ -19,7 +19,9 @@ public class Update {
             int rows=st.executeUpdate(q1);
             String query="SELECT * FROM STUDENT";
             rs= st.executeQuery(query);
-
+            while(rs.next()){
+                System.out.println(rs.getString("age")+" "+rs.getString("course"));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
