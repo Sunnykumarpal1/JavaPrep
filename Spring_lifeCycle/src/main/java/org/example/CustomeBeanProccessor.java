@@ -8,7 +8,8 @@ public class CustomeBeanProccessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("🔹 Before init: " + beanName);
-        r
+        return bean;
+    }
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         System.out.println("🔸 After init: " + beanName);
