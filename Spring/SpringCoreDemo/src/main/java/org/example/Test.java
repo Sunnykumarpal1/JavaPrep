@@ -1,0 +1,35 @@
+package Spring.SpringCoreDemo.src.main.java.org.example;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class Test {
+    public static void main(String[] args) {
+//        ApplicationContext apx= new  ClassPathXmlApplicationContext("Beans.xml");
+
+//        Car car = apx.getBean("car", Car.class);
+//        Car car1=apx.getBean(Car.class);
+//        car.StartDriving();
+
+//        now it's depricated but this is how thier we used to implement and iti's used to give lazy loading
+//        BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
+
+
+//        System.out.println( car.hashCode());
+//        System.out.println(car1.hashCode());
+
+//        Truck truck = apx.getBean("truck", Truck.class);
+//        truck.Drive();
+
+   /*    to use the destroy method we need to use configurableApplicationcontext since applicationcontext do
+         not have the close method so
+    */
+
+        ConfigurableApplicationContext context=new ClassPathXmlApplicationContext("Beans.xml");
+        Car car = context.getBean("car", Car.class);
+        car.StartDriving();
+        context.close();
+
+    }
+}
