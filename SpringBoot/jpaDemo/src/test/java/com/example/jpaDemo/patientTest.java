@@ -25,7 +25,7 @@ public  void findAllPatient(){
 
     @Test
     public  void findById(){
-        Patient p=patientService.findById(1);
+        Patient p=patientService.getPatientById(1);
         System.out.println(p);
     }
 }

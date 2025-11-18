@@ -19,7 +19,8 @@ public class studentController {
 //    get all student
      @GetMapping("/student")
     List<Student> getAllStudent(){
-            return ss.getAllStudent();
+         System.out.println("controller  running...");
+             return ss.getAllStudent();
      }
      @PostMapping("/student")
      void addStudent(@RequestBody Student st){

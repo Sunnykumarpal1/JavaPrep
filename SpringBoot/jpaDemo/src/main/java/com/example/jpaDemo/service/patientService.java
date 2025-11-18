@@ -14,9 +14,10 @@ public class patientService {
     public patientRepo repo;
 
     @Transactional
-    public Patient findById(int id){
+    public Patient getPatientById(int id){
         Patient p1=repo.findById(id).orElseThrow();
         Patient p2=repo.findById(id).orElseThrow();
+        p1.setPName("Aryu");
         return p1;
     }
 }
