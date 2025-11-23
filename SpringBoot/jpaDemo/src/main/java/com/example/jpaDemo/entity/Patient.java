@@ -1,9 +1,12 @@
 package com.example.jpaDemo.entity;
 
+import com.example.jpaDemo.entity.type.BloodType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+
 
 import java.time.LocalDate;
 
@@ -27,15 +30,23 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private  Long pId;
-    private LocalDate birth_day;
-    @Column(name = "person_name",nullable = false)
+
+    @Column(nullable = false)
     private  String pName;
+
+
+    private  String gender;
+    private LocalDate birth_day;
 
     @Column(unique = true, name = "Email",nullable = false)
     private String email;
-   private  String gender;
+   @CreationTimestamp
+   @Column(updatable = false)
+   private LocalDate regDay;
 
 
+   @Enumerated(EnumType.STRING)
+   private BloodType blood_group;
 
 
 
