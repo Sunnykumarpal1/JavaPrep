@@ -2,9 +2,7 @@ package com.example.jpaDemo.entity;
 
 import com.example.jpaDemo.entity.type.BloodType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 
@@ -15,10 +13,13 @@ import java.time.LocalDate;
 @ToString
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 @Table(name = "patient_tbl",
         uniqueConstraints = {
 //               @UniqueConstraint(name = "unique mail", columnNames = "email"),
-                @UniqueConstraint(name = "unique_name_dob",columnNames = {"pName","birth_day"})
+                @UniqueConstraint(name = "unique_name_dob",columnNames = {"name","birth_day"})
 
         },
         indexes={
@@ -27,19 +28,21 @@ import java.time.LocalDate;
 )
 
 public class Patient {
-    @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private  Long pId;
+    @Id()
+    private  Long pid;
 
     @Column(nullable = false)
-    private  String pName;
+    private  String name;
 
 
     private  String gender;
     private LocalDate birth_day;
 
-    @Column(unique = true, name = "Email",nullable = false)
+    @Column(unique = true,nullable = false)
     private String email;
+
    @CreationTimestamp
    @Column(updatable = false)
    private LocalDate regDay;

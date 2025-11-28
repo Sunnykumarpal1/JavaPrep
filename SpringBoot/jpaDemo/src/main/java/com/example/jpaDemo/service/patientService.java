@@ -17,7 +17,7 @@ public class patientService {
     public Patient getPatientById(int id){
         Patient p1=repo.findById(id).orElseThrow();
         Patient p2=repo.findById(id).orElseThrow();
-        p1.setPName("Aryu");
+        p1.setName("Aryu");
         return p1;
     }
 }
