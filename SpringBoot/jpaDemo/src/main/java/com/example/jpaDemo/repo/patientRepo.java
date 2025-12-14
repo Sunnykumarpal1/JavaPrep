@@ -1,7 +1,12 @@
 package com.example.jpaDemo.repo;
 
 import com.example.jpaDemo.entity.Patient;
+import com.example.jpaDemo.entity.dto.CountBloodGroup;
+import com.example.jpaDemo.entity.dto.NameEmail;
 import com.example.jpaDemo.entity.type.BloodType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface patientRepo extends JpaRepository<Patient, Integer> {
+public interface PatientRepo extends JpaRepository<Patient, Integer> {
     public Patient findByName(String name);
 
     public List<Patient> findAllByOrderByPidDesc();
@@ -21,10 +26,12 @@ public interface patientRepo extends JpaRepository<Patient, Integer> {
     public List<Patient> findTop3ByOrderByNameDesc();
 
 
-//    here ?1 measn the we want the first parameter to be use here
+    //    here ?1 measn the we want the first parameter to be use here
     @Query("SELECT p FROM Patient p where p.blood_group=?1")
     List<Patient>findPatientByBloodGroup(BloodType bloodGroup);
 
+//
+//
 //    here we put the : before the varialbe name  and we tell the what's the name in @param
 
     @Query("SELECT P FROM Patient P WHERE P.birth_day > :b_day")
@@ -39,7 +46,7 @@ public interface patientRepo extends JpaRepository<Patient, Integer> {
 
 
 
-//    how to apply native query in jpa
+    //    how to apply native query in jpa
     @Query(value = "SELECT * FROM patient_tbl",nativeQuery = true)
     List<Patient>getAllPatient();
 
@@ -50,11 +57,32 @@ public interface patientRepo extends JpaRepository<Patient, Integer> {
     @Query("Update Patient p set p.name=:name , p.email=:email where p.pid=:id ")
     int updatePatientNameMailById(@Param("name")String name,@Param("email")String email,@Param("id")int id);
 
-//    delete a table
+    //    delete a table
     @Modifying
     @Transactional
     @Query("Delete from Patient p where p.pid=:id")
     int deletePatientById(@Param("id")int id);
 
 
+    //     projection using class
+    @Query("Select new  com.example.jpaDemo.entity.dto.CountBloodGroup(p.blood_group,Count(p)) from Patient p Group by p.blood_group")
+    List<CountBloodGroup>cntBGroup();
+
+    //    projection using interface
+    @Query("Select p.blood_group  as bloodGroup , Count(p)  as cnt from Patient p GROUP BY p.blood_group")
+    List<NameEmail> findNameAndMail();
+
+
+    //    pagination :-
+    @Query("Select p from Patient p")
+    Page<Patient>findPaginationPatient(Pageable pageable);
+
+
+
+
+    @EntityGraph(attributePaths = {"appointment","appointment.doctor"})
+    List<Patient>findAll();
+
+    @Query("Select p from Patient p left join fetch p.appointment a left join fetch a.doctor")
+    public List<Patient> findAllPatientWithAppointment();
 }

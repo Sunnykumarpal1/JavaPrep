@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -15,7 +17,6 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 @Table(name = "patient_tbl",
         uniqueConstraints = {
 //               @UniqueConstraint(name = "unique mail", columnNames = "email"),
@@ -26,7 +27,6 @@ import java.time.LocalDate;
              @Index(name = "idx_patient_dob",columnList = "birth_day")
         }
 )
-
 public class Patient {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY )
@@ -53,6 +53,15 @@ public class Patient {
 
 
 
+   @OneToOne(cascade = {CascadeType.ALL},orphanRemoval = true)
+   @JoinColumn(name = "insurance_id")
+   private  Insurance insurance;
+
+
+
+   @OneToMany(mappedBy = "patient", cascade = {CascadeType.REMOVE},orphanRemoval = true,fetch = FetchType.LAZY)
+//   @ToString.Exclude
+   private List<Appointment> appointment=new ArrayList<>();
    /*
     @Override
     public String toString() {
