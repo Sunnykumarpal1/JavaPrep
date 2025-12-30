@@ -1,3 +1,4 @@
+Reference:- https://www.geeksforgeeks.org/java/java-8-stream-tutorial/
 1️⃣ What is Stream API?
 
 Introduced in Java 8, the Streams API is used to process collections of data in a functional style.
