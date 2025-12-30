@@ -40,24 +40,25 @@ public class MyHashMap<K,V> {
       return null;
    }
     public void remove(K k){
-     int ind=GetIndex(k);
-     Entity<K,V>head=buckets[ind];
-     Entity<K,V>prev=null;
-      if(head==null)return ;
-     while(head!=null){
-        if(head.key.equals(k)){
-            break;
+        int ind = GetIndex(k);
+        Entity<K, V> head = buckets[ind];
+        Entity<K, V> prev = null;
+
+        while (head != null) {
+            if (head.key.equals(k)) {
+                // Node found
+                if (prev == null) {
+                    // Node is head
+                    buckets[ind] = head.next;
+                } else {
+                    // Node is in middle or end
+                    prev.next = head.next;
+                }
+                return; // Removed successfully
+            }
+            prev = head;
+            head = head.next;
         }
-        prev=head;
-        head=head.next;
-     }
-    
-     if(prev==null){
-        prev=head.next;
-     }else{
-        prev.next=head.next;
-     }
-     buckets[ind]=prev;
 
    }
 
