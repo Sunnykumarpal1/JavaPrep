@@ -7,13 +7,9 @@ Streams allow operations like filter, map, reduce, collect, etc., in a declarati
 Key Features
 
 No storage: Stream is not a data structure.
-
 Functional in nature: Operations are expressed as functions.
-
 Lazy evaluation: Operations execute only when a terminal operation is invoked.
-
 Parallel execution: Supports multi-core processing using parallelStream().
-
 Pipelining: Multiple operations can be chained together.
 
 2️⃣ Stream Operations
@@ -21,39 +17,28 @@ Pipelining: Multiple operations can be chained together.
 Streams support two types of operations.
 
 A. Intermediate Operations
-
 Return a new Stream.
-
 Are lazy (do not execute immediately).
 
 Examples
 
 filter(Predicate) → Filters elements
-
 map(Function) → Transforms elements
-
 sorted() → Sorts elements
-
 distinct() → Removes duplicates
-
 limit(n) → Limits number of elements
 
 B. Terminal Operations
 
 Produce a result or side effect.
-
 Trigger execution of the stream pipeline.
 
 Examples
 
 collect() → Converts stream to List / Set / Map
-
 forEach() → Iterates elements
-
 reduce() → Reduces elements to a single value
-
 count() → Returns number of elements
-
 anyMatch(), allMatch(), noneMatch() → Conditional checks
 
 3️⃣ Example Class
@@ -82,6 +67,7 @@ class Student {
 }
 
 4️⃣ Complex Examples
+
 A. Filtering, Mapping, and Sorting
 List<Student> students = List.of(
     new Student("Alice", 20, 85.5, "CS"),
@@ -122,7 +108,7 @@ groupingBy groups students by department
 
 averagingDouble calculates average marks
 
-C. Max, Min, and Reduce
+**C. Max, Min, and Reduce**
 Optional<Student> topStudent = students.stream()
     .max(Comparator.comparingDouble(Student::getMarks)));
 
@@ -137,7 +123,7 @@ max finds the student with highest marks
 
 mapToDouble + sum calculates total marks
 
-D. FlatMap Example
+**D. FlatMap Example**
 class StudentWithHobbies extends Student {
     private List<String> hobbies;
 
@@ -162,7 +148,7 @@ flatMap flattens multiple lists into one stream
 
 distinct removes duplicates
 
-E. Partitioning
+**E. Partitioning**
 Map<Boolean, List<Student>> partitioned = students.stream()
     .collect(Collectors.partitioningBy(s -> s.getMarks() > 80));
 
@@ -171,7 +157,7 @@ Observations
 
 Divides students into passing and failing
 
-F. Parallel Stream
+**F. Parallel Stream**
 double totalMarksParallel = students.parallelStream()
     .mapToDouble(Student::getMarks)
     .sum();
@@ -183,13 +169,14 @@ Uses multiple CPU cores
 
 Safe when no shared mutable state exists
 
-5️⃣ Stream vs ParallelStream
+**5️⃣ Stream vs ParallelStream**
 Feature	Stream	ParallelStream
 Execution	Sequential	Parallel
 Performance	Normal	Faster for large data
 Thread Safety	Not inherent	Careful with shared state
 Use Case	Small/medium data	Large datasets
-6️⃣ Key Takeaways
+
+**6️⃣ Key Takeaways**
 
 Streams simplify data processing in Java
 
