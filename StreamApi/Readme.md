@@ -524,6 +524,12 @@ nums.parallelStream().forEachOrdered(System.out::print);
 * **flatMap** → `Stream<Stream<T>> → Stream<T>`
 * **Parallel Stream** → `parallelStream()` → multi‑threaded processing
 
+Parallel streams use ForkJoinPool.commonPool
+Worker threads are named commonPool-worker-n
+Main thread also participates
+Order is not guaranteed
+Number of workers ≈ CPU cores − 1
+
 ---
 
 ✅ **Perfect for interview revision & GitHub README usage**

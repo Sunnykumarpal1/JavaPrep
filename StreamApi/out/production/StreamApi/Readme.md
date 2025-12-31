@@ -188,3 +188,342 @@ Streams are immutable
 Collectors help with grouping and partitioning
 
 Parallel streams improve performance but need caution
+
+
+# Java Streams – Grouping, Aggregation, flatMap & Parallel Streams
+
+This README provides a **clear, interview‑ready explanation** of **Grouping & Aggregation**, **flatMap**, and **Parallel Streams** in Java Streams with examples.
+
+---
+
+## 1️⃣ Grouping and Aggregation (Collectors)
+
+### 🔹 What is Grouping?
+
+Grouping means **categorizing stream elements based on a key**.
+
+This is done using:
+
+```java
+Collectors.groupingBy()
+```
+
+### Basic Syntax
+
+```java
+Map<K, List<T>> map =
+collection.stream()
+          .collect(Collectors.groupingBy(keyExtractor));
+```
+
+---
+
+### ✅ Example 1: Group Students by Age
+
+```java
+class Student {
+    String name;
+    int age;
+    int marks;
+
+    // constructor + getters
+}
+```
+
+```java
+Map<Integer, List<Student>> groupByAge =
+students.stream()
+        .collect(Collectors.groupingBy(Student::getAge));
+```
+
+**Output**
+
+```
+20 → [Student1, Student3]
+21 → [Student2]
+```
+
+👉 Each **age** becomes a **key**, and the value is a **list of students**.
+
+---
+
+### 🔹 What is Aggregation?
+
+Aggregation means **reducing grouped data into a single value**, such as:
+
+* count
+* sum
+* average
+* min / max
+
+---
+
+### ✅ Example 2: Count Students per Age
+
+```java
+Map<Integer, Long> countByAge =
+students.stream()
+        .collect(Collectors.groupingBy(
+            Student::getAge,
+            Collectors.counting()
+        ));
+```
+
+**Output**
+
+```
+20 → 2
+21 → 1
+```
+
+---
+
+### ✅ Example 3: Average Marks per Age
+
+```java
+Map<Integer, Double> avgMarksByAge =
+students.stream()
+        .collect(Collectors.groupingBy(
+            Student::getAge,
+            Collectors.averagingInt(Student::getMarks)
+        ));
+```
+
+---
+
+### ✅ Example 4: Sum of Marks per Age
+
+```java
+Map<Integer, Integer> totalMarksByAge =
+students.stream()
+        .collect(Collectors.groupingBy(
+            Student::getAge,
+            Collectors.summingInt(Student::getMarks)
+        ));
+```
+
+---
+
+### 🎯 Interview Tip
+
+> **`groupingBy` creates buckets, downstream collectors decide what happens inside each bucket**
+
+---
+
+---
+
+## 2️⃣ flatMap (MOST IMPORTANT 🔥)
+
+### 🔹 Why flatMap?
+
+| Operation   | Conversion                                |
+| ----------- | ----------------------------------------- |
+| `map()`     | 1 element → 1 element                     |
+| `flatMap()` | 1 element → multiple elements → flattened |
+
+---
+
+### ❌ Problem Without flatMap
+
+```java
+List<List<String>> list = List.of(
+    List.of("Java", "Python"),
+    List.of("C++", "Go")
+);
+
+list.stream()
+    .map(l -> l.stream())
+    .forEach(System.out::println);
+```
+
+**Output**
+
+```
+java.util.stream.ReferencePipeline$Head@xxx
+```
+
+❌ This creates a **Stream<Stream<String>>** (stream of streams).
+
+---
+
+### ✅ Solution Using flatMap
+
+```java
+list.stream()
+    .flatMap(l -> l.stream())
+    .forEach(System.out::println);
+```
+
+**Output**
+
+```
+Java
+Python
+C++
+Go
+```
+
+✔️ Flattened into a **single stream**.
+
+---
+
+### ✅ Example 2: Words from Sentences
+
+```java
+List<String> sentences =
+List.of("I love Java", "Streams are powerful");
+
+sentences.stream()
+         .flatMap(s -> Arrays.stream(s.split(" ")))
+         .forEach(System.out::println);
+```
+
+**Output**
+
+```
+I
+love
+Java
+Streams
+are
+powerful
+```
+
+---
+
+### ✅ Example 3: Remove Duplicates from Nested List
+
+```java
+List<List<Integer>> nums =
+List.of(List.of(1,2), List.of(2,3), List.of(3,4));
+
+nums.stream()
+    .flatMap(List::stream)
+    .distinct()
+    .forEach(System.out::println);
+```
+
+**Output**
+
+```
+1 2 3 4
+```
+
+---
+
+### 🎯 Interview One‑Liner
+
+> **`flatMap` converts `Stream<Stream<T>>` into `Stream<T>`**
+
+---
+
+---
+
+## 3️⃣ Parallel Streams
+
+### 🔹 What is a Parallel Stream?
+
+A **parallel stream** splits data into multiple parts and processes them using **multiple threads** via the **ForkJoinPool**.
+
+```java
+collection.parallelStream();
+// OR
+collection.stream().parallel();
+```
+
+---
+
+### ✅ Example: Normal vs Parallel Stream
+
+```java
+List<Integer> nums = IntStream.rangeClosed(1, 10)
+                             .boxed()
+                             .toList();
+```
+
+#### Normal Stream
+
+```java
+nums.stream()
+    .forEach(n ->
+        System.out.println(Thread.currentThread().getName() + " " + n)
+    );
+```
+
+#### Parallel Stream
+
+```java
+nums.parallelStream()
+    .forEach(n ->
+        System.out.println(Thread.currentThread().getName() + " " + n)
+    );
+```
+
+**Sample Output (Parallel)**
+
+```
+ForkJoinPool.commonPool-worker-1 5
+main 3
+ForkJoinPool.commonPool-worker-3 8
+```
+
+✔️ Multiple threads are working concurrently.
+
+---
+
+### ⚠️ Order Issue
+
+```java
+nums.parallelStream().forEach(System.out::print);
+```
+
+❌ Order is **not guaranteed**
+
+✔️ If order matters:
+
+```java
+nums.parallelStream().forEachOrdered(System.out::print);
+```
+
+---
+
+### ❌ When NOT to Use Parallel Streams
+
+* Small datasets
+* I/O operations
+* Shared mutable state
+* When strict order is required
+
+---
+
+### ✅ When to Use Parallel Streams
+
+* Large collections
+* CPU‑intensive tasks
+* Stateless operations
+
+---
+
+### 🎯 Interview Comparison
+
+| Stream        | Parallel Stream         |
+| ------------- | ----------------------- |
+| Single thread | Multiple threads        |
+| Ordered       | Unordered               |
+| Predictable   | Faster but complex      |
+| Safe          | Risk of race conditions |
+
+---
+
+---
+
+## 🔥 Quick Summary (Revision)
+
+* **Grouping** → `groupingBy(key)`
+* **Aggregation** → `counting()`, `summingInt()`, `averagingInt()`
+* **flatMap** → `Stream<Stream<T>> → Stream<T>`
+* **Parallel Stream** → `parallelStream()` → multi‑threaded processing
+
+---
+
+✅ **Perfect for interview revision & GitHub README usage**

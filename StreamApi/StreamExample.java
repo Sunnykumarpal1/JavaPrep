@@ -85,7 +85,7 @@ public class StreamExample {
         cnt.forEach((k,v)-> System.out.println(k+" "+v));
 
          */
-
+/*
 //        flatmap
         List<List<Integer>> list = List.of(
                 List.of(1, 2, 3),
@@ -93,6 +93,13 @@ public class StreamExample {
                 List.of(6, 7, 5,8)
         );
         list.stream().flatMap(s->s.stream()).distinct().forEach(System.out::println);
+
+*/
+        List<Integer>ls=List.of(1,2,3,3,5,56,8,9,10);
+        System.out.println("Normal/sequential stream");
+        ls.stream().forEach(n-> System.out.println(Thread.currentThread().getName()+" -> "+n));
+        System.out.println("parallel stream");
+        ls.parallelStream().forEach(n-> System.out.println(Thread.currentThread().getName()+" -> "+n));
 
 
 
