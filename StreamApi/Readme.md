@@ -556,10 +556,10 @@ Garbage Collection (GC) is the automatic process of reclaiming memory by deletin
 
 ---
 
-## 3️⃣ Using `System.gc()`
-
-```java
+## 3️⃣ Using System.gc()
 System.gc();
+
+
 
 # Garbage Collection Algorithms
 
