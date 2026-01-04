@@ -533,3 +533,52 @@ Number of workers ≈ CPU cores − 1
 ---
 
 ✅ **Perfect for interview revision & GitHub README usage**
+
+
+# Garbage Collection (GC) in Java
+
+## 1️⃣ What is Garbage Collection?
+
+**Definition:**  
+Garbage Collection (GC) is the automatic process of reclaiming memory by deleting objects that are no longer reachable or needed by a program.
+
+**Purpose:**
+- Helps avoid memory leaks.
+- Frees developers from manual memory management.
+
+---
+
+## 2️⃣ How Garbage Collection Works
+
+1. The JVM keeps track of all objects in **heap memory**.
+2. Objects that are **no longer referenced** by any part of the program become **eligible for GC**.
+3. The **Garbage Collector** runs in the background and automatically frees memory occupied by these objects.
+
+---
+
+## 3️⃣ Using `System.gc()`
+
+```java
+System.gc();
+
+# Garbage Collection Algorithms
+
+## 1️⃣ Mark-Sweep Algorithm
+
+**Steps:**
+1. **Mark:** Traverse all reachable objects from root references and mark them as alive.  
+2. **Sweep:** Scan the heap and remove all unmarked (unreachable) objects.  
+
+**Key Point:** Fast but can leave memory fragmentation.
+
+---
+
+## 2️⃣ Mark-Sweep-Compact Algorithm
+
+**Steps:**
+1. **Mark:** Same as Mark-Sweep.  
+2. **Sweep:** Remove unreachable objects.  
+3. **Compact:** Shift all remaining live objects together to make memory contiguous, reducing fragmentation.  
+
+**Key Point:** Slightly slower than Mark-Sweep but prevents fragmentation.
+
