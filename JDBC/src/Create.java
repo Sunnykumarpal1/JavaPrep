@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class Create {
     public static void main(String[] args) {
-        String url="jdbc:MySql://localhost:3306/jdbc";
+        String url="jdbc:MySql://localhost:3306/ptrial";
         String user="root";
         String password="123456";
         Connection connection = null;
@@ -20,6 +20,7 @@ public class Create {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        System.out.println("done");
         // query
     }
 }

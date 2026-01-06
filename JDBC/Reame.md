@@ -9,7 +9,7 @@ When a JDBC program runs:
 * The driver establishes a **socket connection** with the database.
 * The database **authenticates the user**.
 * A `Connection` object is returned to the Java application.
-* SQL statements are sent to the database through the driver.
+* we execute SQL using Statement or PreparedStatement, the driver converts JDBC calls into database-specific protocol and sends them to the database engine.
 * The **database engine executes** the SQL queries.
 * Results are returned to Java as `ResultSet` objects.
 
@@ -186,5 +186,131 @@ class Demo {
 * Driver handles communication, DB handles execution
 
 ---
+# JDBC Transactions Guide
+
+## 1️⃣ What is a Transaction?
+
+A transaction is a group of SQL operations that must be executed as a single unit.
+
+**Behavior:**
+
+* All operations succeed → `COMMIT`
+* Any operation fails → `ROLLBACK`
+
+**Real-life Example:**
+
+* **Bank Transfer:**
+
+    * Debit from Account A
+    * Credit to Account B
+    * If debit succeeds but credit fails → ❌ data inconsistency
+    * Both must succeed or both must fail.
+
+## 2️⃣ Transaction Properties (ACID)
+
+Databases follow ACID:
+
+| Property    | Meaning                      |
+| ----------- | ---------------------------- |
+| Atomicity   | All or nothing               |
+| Consistency | DB remains valid             |
+| Isolation   | Transactions don’t interfere |
+| Durability  | Committed data is permanent  |
+
+## 3️⃣ Transactions in JDBC (Core Idea)
+
+By default:
+
+```java
+con.getAutoCommit(); // true
+```
+
+* Each SQL statement is committed automatically.
+
+**Why auto-commit is bad for multi-step logic?**
+
+* If one statement fails, previous statements are already committed
+* You cannot rollback
+
+## 4️⃣ Manual Transaction Control in JDBC
+
+To handle transactions properly:
+
+**Step 1:** Disable auto-commit
+
+```java
+con.setAutoCommit(false);
+```
+
+**Step 2:** Execute multiple SQL statements
+
+**Step 3:** Commit or rollback
+
+```java
+con.commit();   // success
+con.rollback(); // failure
+```
+
+## 5️⃣ JDBC Transaction Example (Bank Transfer)
+
+```java
+Connection con = null;
+
+try {
+    con = DriverManager.getConnection(url, user, pass);
+
+    // 1️⃣ Disable auto-commit
+    con.setAutoCommit(false);
+
+    PreparedStatement debit =
+        con.prepareStatement("UPDATE account SET balance = balance - ? WHERE id = ?");
+
+    PreparedStatement credit =
+        con.prepareStatement("UPDATE account SET balance = balance + ? WHERE id = ?");
+
+    // Debit from account A
+    debit.setInt(1, 1000);
+    debit.setInt(2, 1);
+    debit.executeUpdate();
+
+    // Credit to account B
+    credit.setInt(1, 1000);
+    credit.setInt(2, 2);
+    credit.executeUpdate();
+
+    // 2️⃣ Commit if everything succeeds
+    con.commit();
+    System.out.println("Transaction successful");
+
+} catch (Exception e) {
+    // 3️⃣ Rollback on failure
+    if (con != null) {
+        con.rollback();
+    }
+    System.out.println("Transaction failed, rolled back");
+
+} finally {
+    if (con != null) con.close();
+}
+```
+
+## 6️⃣ What Happens Internally?
+
+* `setAutoCommit(false)` → JDBC tells DB “don’t commit automatically”
+* SQL statements are executed but not committed
+* `commit()` → DB permanently saves changes
+* `rollback()` → DB undoes all changes since last commit
+
+## 7️⃣ Savepoints (Advanced but Good to Know)
+
+Savepoints allow partial rollback.
+
+```java
+Savepoint sp = con.setSavepoint();
+
+// some SQL statements
+con.rollback(sp); // rollback to savepoint
+```
 
 ✅ **This README can be directly used in GitHub or project documentation.**
+
