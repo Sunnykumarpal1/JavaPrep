@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.util.List;
 
 public class Deserlize {
+
+
     public static void main(String[] args) {
         try {
             FileInputStream fis = new FileInputStream("file.txt");

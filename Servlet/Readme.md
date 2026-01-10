@@ -151,3 +151,55 @@ Renders HTML / displays output
 
 markdown
 Copy code
+
+
+
+Correct Java Servlet Flow
+
+1️⃣ Write Java Servlet code → LoginServlet.java
+
+2️⃣ Compile → produces LoginServlet.class
+
+3️⃣ Package the classes and resources → into a WAR (Web Application Archive)
+
+WAR contains:
+
+WEB-INF/classes → compiled .class files
+
+WEB-INF/web.xml → servlet mappings
+
+JSPs, HTML, CSS, JS, etc.
+
+4️⃣ Deploy WAR to Tomcat
+
+Tomcat extracts the WAR internally
+
+Reads web.xml or @WebServlet annotations
+
+Maps URLs → corresponding servlets
+
+5️⃣ Servlet Loading & Initialization
+
+Tomcat creates instance of servlet (only once)
+
+Calls init() method → initializes the servlet
+
+6️⃣ Browser sends HTTP request (GET / POST / etc.) to Tomcat web server
+
+7️⃣ Tomcat maps the request → finds the correct servlet using URL mapping
+
+8️⃣ Servlet processes the request
+
+Servlet Container calls service() → internally calls doGet() / doPost()
+
+Servlet executes Java code → reads request, processes logic, generates response
+
+9️⃣ Servlet Container sends response back to Web Server
+
+🔟 Web Server sends HTTP response back to browser
+
+⚡ Important note: destroy() is not called after every request — it is called only once when:
+
+Tomcat shuts down
+
+Application undeployed

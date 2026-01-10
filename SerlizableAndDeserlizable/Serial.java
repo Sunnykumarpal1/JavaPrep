@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Serial {
     public static void main(String[] args) {
+        Li
         try {
             // serilizaiton
             Student st = new Student("Sunny", "Bangalore", "Sunny@gmail.com", 23);

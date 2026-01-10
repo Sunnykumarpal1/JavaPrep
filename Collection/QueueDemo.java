@@ -1,10 +1,6 @@
 package Collection;
 
-import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class QueueDemo {
     public static void main(String[] args) {
@@ -22,6 +18,7 @@ public class QueueDemo {
         qu.poll();
         System.out.println(qu);
 
+
         /* Priority Queue */
 
         PriorityQueue<Student>pq=new PriorityQueue<>(Collections.reverseOrder());
@@ -31,15 +28,45 @@ public class QueueDemo {
         pq.add(s1);
         pq.add(s2);
         pq.add(s3);
+
+
         while(!pq.isEmpty()){
             System.out.println(pq.peek());
             pq.poll();
         }
         System.out.println(pq);
 
+
+        PriorityQueue<Student>pq2=new PriorityQueue<>((a,b)->b.getId()-a.getId());
+        pq2.add(s1);
+        pq2.add(s2);
+        System.out.println(pq2);
+
         /* DequeuArray */
-        
-       Queue<Integer>
+        ArrayDeque<Integer>aDq=new ArrayDeque<>();
+        aDq.push(1);
+        aDq.push(2);
+        aDq.push(5);
+        aDq.push(9);
+        aDq.offerFirst(3);
+        aDq.offerFirst(10);
+        System.out.println(aDq);
+
+
+        Integer peek = aDq.peek();
+        System.out.println("peek"+peek);
+        System.out.println(aDq);
+
+
+
+        Integer pF = aDq.pollFirst();
+        System.out.println("pollFirst"+ pF);
+        System.out.println(aDq);
+        Integer pL = aDq.pollLast();
+        System.out.println("pollLast"+pL);
+
+
+
 
 
     }

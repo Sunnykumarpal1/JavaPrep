@@ -23,18 +23,22 @@ public class ListDemo {
 
         /* Linked list */
 
-        List<Integer>ll=new LinkedList<>();
+        LinkedList<Integer>ll=new LinkedList<>();
         ll.add(1);
         ll.add(321);
         ll.add(13);
         ll.add(11);
 
-        Collections.sort(ll);
-        Collections.reverse(ll);
-        System.out.println(ll);
-        System.out.println(ll.get(3));
+
+//        Collections.sort(ll);
+//        Collections.reverse(ll);
+//        System.out.println(ll);
+//        System.out.println(ll.get(3));
+        Collections.sort(ll,(a,b)->{
+            return b-a;
+        });
         
-        
+
         /* Vector */
 
         List<Integer>vec=new Vector<>();
