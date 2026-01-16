@@ -123,7 +123,9 @@ The lifecycle of a Spring bean consists of several phases managed by the Spring 
 ## Bean PostProcessor
 BeanPostProcessor is a Spring interface that allows custom logic to be executed before and after a bean’s initialization phase.
 
-**public interface BeanPostProcessor {
+```
+public interface BeanPostProcessor {
     Object postProcessBeforeInitialization(Object bean, String beanName);
     Object postProcessAfterInitialization(Object bean, String beanName);
-}**
+}
+```
