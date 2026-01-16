@@ -87,7 +87,7 @@ public class AppConfig {
 Both register objects as beans in the Spring IoC container.
 
 
-#Spring Bean Lifecycle
+# Spring Bean Lifecycle
 
 The lifecycle of a Spring bean consists of several phases managed by the Spring IoC container. Understanding these phases is crucial for effective Spring development.
 
