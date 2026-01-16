@@ -129,3 +129,103 @@ public interface BeanPostProcessor {
     Object postProcessAfterInitialization(Object bean, String beanName);
 }
 ```
+# 🌱 Bean Init & Destroy – BIG PICTURE
+Phase	Purpose
+* Init	Run logic after bean creation & dependency injection
+* Destroy	Cleanup before bean removal / context shutdown
+
+⚠️ Destroy methods run only when the Spring context is closed and not for prototype beans.
+
+## 1️⃣ Using @PostConstruct & @PreDestroy (Most Used 🔥)
+```Example
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Car {
+
+    @PostConstruct
+    public void init() {
+        System.out.println("🚗 Car initialized (@PostConstruct)");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("🔥 Car destroyed (@PreDestroy)");
+    }
+}
+```
+✅ Pros
+
+Clean
+
+No Spring interface dependency
+Annotation-based (modern Spring)
+❌ Cons
+One init & destroy method only
+📌 Interview Line
+@PostConstruct and @PreDestroy are lifecycle annotations invoked after dependency injection and before bean destruction.
+
+## 2️⃣ Using InitializingBean & DisposableBean (Interface-Based)
+````
+Example
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Car implements InitializingBean, DisposableBean {
+
+    @Override
+    public void afterPropertiesSet() {
+        System.out.println("🚗 Car initialized (afterPropertiesSet)");
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("🔥 Car destroyed (DisposableBean)");
+    }
+}
+````
+✅ Pros
+Guaranteed execution
+Explicit lifecycle hooks
+
+❌ Cons
+Tight coupling to Spring
+Not recommended for clean architecture
+
+📌 Interview Line
+Interface-based lifecycle methods tightly couple the bean to Spring.
+
+## 3️⃣ Using @Bean(initMethod, destroyMethod) (Very Important ⭐)
+````
+Example
+public class Engine {
+public void start() {
+System.out.println("🔧 Engine started");
+}
+public void stop() {
+System.out.println("🛑 Engine stopped");
+}
+}
+
+@Configuration
+public class AppConfig {
+
+    @Bean(initMethod = "start", destroyMethod = "stop")
+    public Engine engine() {
+        return new Engine();
+    }
+}
+````
+✅ Pros
+No annotation in class
+Works well for third-party classes
+
+❌ Cons
+Method names are strings (no compile-time safety)
+📌 Interview Line
+initMethod and destroyMethod are commonly used when source code cannot be modified.
+
