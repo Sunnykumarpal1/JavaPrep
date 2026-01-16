@@ -85,13 +85,13 @@ public class AppConfig {
 @Component → Class-level, auto-detected, simple bean creation.
 @Bean → Method-level, manual declaration, full control.
 Both register objects as beans in the Spring IoC container.
+```
 
-
-# Spring Bean Lifecycle
+## Spring Bean Lifecycle
 
 The lifecycle of a Spring bean consists of several phases managed by the Spring IoC container. Understanding these phases is crucial for effective Spring development.
 
-## Bean Lifecycle Phases
+### Bean Lifecycle Phases
 
 1. **Container Started**  
    The Spring IoC container is initialized.
@@ -120,7 +120,7 @@ The lifecycle of a Spring bean consists of several phases managed by the Spring 
 9. **Custom destroy() Method**  
    If the bean implements `DisposableBean` or has a custom destruction method specified via `@PreDestroy` or `destroy-method`, it is called when the container is shutting down.
 
-#Bean PostProcessor
+## Bean PostProcessor
 BeanPostProcessor is a Spring interface that allows custom logic to be executed before and after a bean’s initialization phase.
 
 **public interface BeanPostProcessor {
