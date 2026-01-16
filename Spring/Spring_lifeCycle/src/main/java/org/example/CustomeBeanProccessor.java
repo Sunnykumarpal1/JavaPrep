@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 public class CustomeBeanProccessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("🔹 Before init: " + beanName);
+        System.out.println("🔹 Before init:- " + beanName);
         return bean;
     }
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("🔸 After init: " + beanName);
+        System.out.println("🔸 After init:- " + beanName);
         return bean;
     }
 }
