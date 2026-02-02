@@ -93,7 +93,7 @@ The lifecycle of a Spring bean consists of several phases managed by the Spring 
 
 ### Bean Lifecycle Phases
 
-1. **Container Started**  
+``1. **Container Started**  
    The Spring IoC container is initialized.
 
 2. **Bean Instantiated**  
@@ -111,7 +111,7 @@ The lifecycle of a Spring bean consists of several phases managed by the Spring 
 6. **BeanPostProcessor (After Initialization)**  
    `BeanPostProcessor` implementations are called again after the initialization methods.
 
-7. **Bean is Ready**  
+7``. **Bean is Ready**  
    The bean is now fully initialized and ready for use.
 
 8. **Custom Utility Method**  
@@ -229,3 +229,223 @@ Method names are strings (no compile-time safety)
 📌 Interview Line
 initMethod and destroyMethod are commonly used when source code cannot be modified.
 
+
+# OSI Model – Clear Layer-by-Layer Explanation
+
+This document explains the **OSI (Open Systems Interconnection) Model** in a **pure, concept-based way**.
+No examples, no analogies — only **what each layer is**, **what it does**, and **why it exists**.
+
+---
+
+## What is the OSI Model?
+
+The OSI Model is a **7-layer conceptual framework** used to understand how data moves from one computer to another over a network.
+
+Each layer has a **specific responsibility**. Together, they ensure:
+
+* Correct data delivery
+* Interoperability between systems
+* Easier troubleshooting and design
+
+---
+
+## 7️⃣ Application Layer
+
+### What it is
+
+The topmost layer that provides **network services to applications**.
+
+### What it does
+
+* Allows applications to request network communication
+* Defines application-level protocols
+
+### What it does NOT do
+
+* Does not transmit data
+* Does not handle encryption or reliability
+
+### Common protocols
+
+* HTTP / HTTPS
+* FTP
+* SMTP
+* DNS
+
+### Key responsibility
+
+**User-facing network services**
+
+---
+
+## 6️⃣ Presentation Layer
+
+### What it is
+
+The **data translation layer** between the application and the network.
+
+### What it does
+
+* Converts data formats (text, images, audio → binary)
+* Encrypts and decrypts data
+* Compresses and decompresses data
+
+### Why it exists
+
+* Different systems use different data formats
+* Ensures data is readable and secure
+
+### Key responsibility
+
+**Data representation and security**
+
+---
+
+## 5️⃣ Session Layer
+
+### What it is
+
+Manages **logical communication sessions** between two systems.
+
+### What it does
+
+* Establishes a session
+* Maintains the session
+* Terminates the session
+* Handles session checkpoints and recovery
+
+### Why it exists
+
+* Prevents treating every request as a new connection
+
+### Key responsibility
+
+**Session management**
+
+---
+
+## 4️⃣ Transport Layer
+
+### What it is
+
+Provides **end-to-end communication** between sender and receiver.
+
+### What it does
+
+* Segments data
+* Ensures reliable delivery (if required)
+* Error detection and recovery
+* Flow control
+* Port addressing
+
+### Protocols
+
+* TCP (Reliable, connection-oriented)
+* UDP (Fast, connectionless)
+
+### Key responsibility
+
+**Reliability and data integrity**
+
+---
+
+## 3️⃣ Network Layer
+
+### What it is
+
+Handles **logical addressing and routing** across networks.
+
+### What it does
+
+* Assigns IP addresses
+* Determines the best path for data
+* Routes packets between networks
+
+### Devices
+
+* Routers
+
+### Protocols
+
+* IP
+* ICMP
+* RIP, OSPF
+
+### Key responsibility
+
+**Routing and path selection**
+
+---
+
+## 2️⃣ Data Link Layer
+
+### What it is
+
+Provides **node-to-node delivery** within the same network.
+
+### What it does
+
+* Frames packets
+* Uses MAC addresses
+* Performs error detection (CRC)
+* Controls access to the physical medium
+
+### Devices
+
+* Switches
+* Bridges
+
+### Key responsibility
+
+**Reliable local delivery**
+
+---
+
+## 1️⃣ Physical Layer
+
+### What it is
+
+The lowest layer responsible for **physical transmission of data**.
+
+### What it does
+
+* Transmits raw bits (0s and 1s)
+* Defines voltage levels, timing, signaling
+* Specifies cables, connectors, and hardware details
+
+### Devices
+
+* Cables
+* Hubs
+* Network Interface Cards (NICs)
+
+### Key responsibility
+
+**Bit transmission**
+
+---
+
+## Data Units per OSI Layer
+
+| Layer        | Data Unit |
+| ------------ | --------- |
+| Application  | Data      |
+| Presentation | Data      |
+| Session      | Data      |
+| Transport    | Segment   |
+| Network      | Packet    |
+| Data Link    | Frame     |
+| Physical     | Bits      |
+
+---
+
+## Why the OSI Model is Important
+
+* Helps understand how networks work
+* Makes troubleshooting systematic
+* Standard interview topic
+* Improves protocol and system design understanding
+
+---
+
+**End of README**

@@ -1,0 +1,4 @@
+
+@myInfo
+public class Person {
+}

@@ -1,4 +1,4 @@
-package Spring.SpringCoreDurgesh.src.test.java.org.example;
+package org.example;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
