@@ -10,8 +10,8 @@ public class DemoApplication {
 
 	public static void main(String[] args) {
 			ApplicationContext context=SpringApplication.run(DemoApplication.class, args);
-		Student bean = context.getBean(Student.class);
-		System.out.println(bean);
+
+
 
 	}
 
