@@ -182,3 +182,215 @@ public ResponseEntity<String> responseWithHeaders() {
     return new ResponseEntity<>("Hello World", headers, HttpStatus.OK);
 }
 
+
+# 📌 Spring Boot Internals & One-to-One Mapping Guide
+
+---
+
+# 🔹 How @Transactional Works Internally in Spring
+
+## ✅ Core Concept
+
+Spring uses **AOP (Aspect-Oriented Programming)** and a **proxy-based mechanism** to implement transaction management.
+
+When a method is annotated with `@Transactional`, Spring does NOT modify the original class directly.
+
+Instead, Spring creates a **proxy object** around the original bean.
+
+All method calls go through this proxy.
+
+---
+
+## 🔄 Internal Working Flow
+
+1. Client calls a method.
+2. Call goes to the Proxy.
+3. Proxy starts the transaction.
+4. Proxy calls the actual method.
+5. If execution succeeds → Commit.
+6. If RuntimeException/Error occurs → Rollback.
+
+---
+
+## 🧠 Behind the Scenes
+
+Spring internally uses:
+
+- **JDK Dynamic Proxy** → If interface-based
+- **CGLIB Proxy** → If no interface
+
+Transaction is managed by:
+
+- `PlatformTransactionManager`
+
+Transaction logic handled by:
+
+- `TransactionInterceptor`
+
+---
+
+## 📊 Simplified Flow Diagram
+
+Client  
+   ↓  
+Proxy  
+   ↓  
+Start Transaction  
+   ↓  
+Call Actual Method  
+   ↓  
+Commit / Rollback  
+
+---
+
+## ⚠ Important Notes
+
+- Works only for **public methods**
+- **Self-invocation does NOT work**
+- Default rollback → `RuntimeException` and `Error`
+- For checked exceptions:
+
+```java
+@Transactional(rollbackFor = Exception.class)
+```
+
+---
+
+## 🎯 Interview Summary (Transactional)
+
+- Uses AOP
+- Proxy-based mechanism
+- Transaction starts before method execution
+- Commit/Rollback after execution
+- Managed by `PlatformTransactionManager`
+- Self-invocation does not trigger transaction
+
+---
+
+# 🔹 One-to-One Mapping in JPA / Hibernate
+
+## ✅ Owning Side Concept
+
+In One-to-One relationship:
+
+> Owning side = Entity that contains the foreign key column.
+
+---
+
+## 🏗 Where to Place the Foreign Key?
+
+Rule:
+
+- Place the foreign key in the **dependent entity**
+- Dependent entity = cannot exist without the other
+
+---
+
+## 📌 Example Scenario
+
+- A User can exist without a Profile
+- A Profile cannot exist without a User
+
+### Therefore:
+
+- Profile is dependent entity
+- Profile should contain foreign key
+- Profile is owning side
+
+---
+
+## 🧩 Annotation Placement
+
+### ✅ Owning Side (Profile)
+
+```java
+@Entity
+public class Profile {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String bio;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+}
+```
+
+✔ Contains `@JoinColumn`  
+✔ Stores foreign key
+
+---
+
+### 🔁 Inverse Side (User)
+
+```java
+@Entity
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToOne(mappedBy = "user")
+    private Profile profile;
+}
+```
+
+✔ Uses `mappedBy`  
+✔ Does NOT contain foreign key
+
+---
+
+## 📊 Database Representation
+
+### USER Table
+
+| id | name |
+
+---
+
+### PROFILE Table
+
+| id | bio | user_id (FK) |
+
+---
+
+## ⚠ What Happens If Foreign Key is Placed in Wrong Table?
+
+- Logical relationship becomes incorrect
+- May allow invalid data
+- Real-world dependency not reflected properly
+- Cascade & orphan removal may not behave correctly
+- Nullable columns may be introduced unnecessarily
+
+---
+
+## 🎯 Interview Summary (One-to-One)
+
+- Owning side = entity with foreign key
+- Owning side contains `@JoinColumn`
+- Inverse side uses `mappedBy`
+- Foreign key usually placed in dependent entity
+- Think about real-world dependency before designing schema
+
+---
+
+# 🚀 Quick Revision
+
+## 🔥 @Transactional
+- AOP-based
+- Proxy mechanism
+- Uses `PlatformTransactionManager`
+- Default rollback → Unchecked exceptions
+- Self-invocation does NOT work
+
+## 🔥 One-to-One Mapping
+- Identify dependent entity
+- Foreign key goes there
+- `@JoinColumn` → Owning side
+- `mappedBy` → Inverse side

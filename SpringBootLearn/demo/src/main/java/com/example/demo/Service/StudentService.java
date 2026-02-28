@@ -7,6 +7,8 @@ import com.example.demo.dto.StudentResponseDTO;
 import com.example.demo.repository.StudentRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +48,7 @@ StudentService {
 
     public List<StudentResponseDTO> getAllStudents() {
         List<Student>students=repo.findAll();
+//          List<Student>students=repo.findAllByOrderByStIdDesc();
         return students.stream().map(s->getResponseDTO(s)).toList();
     }
 
@@ -66,7 +69,7 @@ StudentService {
         return getResponseDTO(updatedStudent);
     }
 
-    public StudentResponseDTO updateStudentData(int id, StudentPatchDto requestDto) {
+    public StudentResponseDTO updatePartialStudentData(int id, StudentPatchDto requestDto) {
         Student existingStudent = (Student) repo.findById(id).orElseThrow(()-> new RuntimeException("Student not found exception"));
         System.out.println(requestDto);
         if(requestDto.getName()!=null){
@@ -82,6 +85,13 @@ StudentService {
 
         Student updatedStudent=repo.save(existingStudent);
         return getResponseDTO(updatedStudent);
+    }
+
+//    pagination
+    public List<StudentResponseDTO> getStudents(Integer page,Integer siz) {
+        PageRequest pageRequest = PageRequest.of(page, siz);
+        Page<Student>students=repo.findAllByOrderByStIdDesc(pageRequest);
+        return students.stream().map(s->getResponseDTO(s)).toList();
     }
 }
 
