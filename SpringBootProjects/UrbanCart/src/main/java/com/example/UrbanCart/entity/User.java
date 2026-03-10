@@ -2,10 +2,13 @@ package com.example.UrbanCart.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,13 +16,14 @@ public class User {
     @Column(nullable = false)
     private String name;
     @Column(unique = true,nullable = false)
+    @Email
     private String email;
     private String password;
 
 
-    @OneToMany(mappedBy ="user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy ="user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonManagedReference
-    List<Orders>orders;
+    List<Orders>orders=new ArrayList<>();
 
     public User() {
     }
