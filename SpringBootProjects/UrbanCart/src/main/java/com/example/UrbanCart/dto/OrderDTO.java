@@ -4,17 +4,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderDTO {
-    private Integer id;
+    private Long id;
     private LocalDateTime orderDate;
     private double totalAmount;
     private String orderStatus;
-    private Integer userId;
+    private Long userId;
     private List<OrderItemsDTO>orderItems;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(Integer id, LocalDateTime orderDate, double totalAmount, String orderStatus, Integer userId, List<OrderItemsDTO> orderItems) {
+    public OrderDTO(Long id, LocalDateTime orderDate, double totalAmount, String orderStatus, Long userId, List<OrderItemsDTO> orderItems) {
         this.id = id;
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
@@ -23,11 +23,11 @@ public class OrderDTO {
         this.orderItems = orderItems;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,11 +55,11 @@ public class OrderDTO {
         this.orderStatus = orderStatus;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
