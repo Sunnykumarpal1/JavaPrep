@@ -1,5 +1,8 @@
 package com.example.UrbanCart.service;
 
+import com.example.UrbanCart.Exception.InsufficientItemException;
+import com.example.UrbanCart.Exception.ProductNotFoundException;
+import com.example.UrbanCart.Exception.UserNotFoundException;
 import com.example.UrbanCart.dto.OrderDTO;
 import com.example.UrbanCart.dto.OrderItemsDTO;
 import com.example.UrbanCart.dto.OrderRequest;
@@ -36,7 +39,7 @@ public class OrderService {
     @Transactional
     public OrderDTO placeOrder(OrderRequest orderRequest) {
         Long userId=orderRequest.getUserId();
-        User user=userRepository.findById(userId).orElseThrow(()->new RuntimeException("User Not found Exception"));
+        User user=userRepository.findById(userId).orElseThrow(()->new UserNotFoundException("User Not found Exception"));
         Map<Long,Integer> products=orderRequest.getQuantities();
         Orders orders=new Orders();
 
@@ -49,14 +52,23 @@ public class OrderService {
 
         Double totalSum=0.0;
         for(Map.Entry<Long,Integer>items:products.entrySet()){
-            Product product=productRepostiory.findById(items.getKey()).orElseThrow(()->new RuntimeException("Product not found excetpion"));
-            totalSum+=(product.getPrice()*items.getValue());
-            OrderItems orderItem=new OrderItems();
-            orderItem.setOrders(orders);
-            orderItem.setProduct(product);
-            orderItem.setQuantity(items.getValue());
-            orderItems.add(orderItem);
-            orderItemsDTOS.add(new OrderItemsDTO(product.getName(),product.getPrice(),items.getValue()));
+            Product product=productRepostiory.findById(items.getKey()).orElseThrow(()->new ProductNotFoundException("Product not found excetpion"));
+            if(product.getStockQuantity()>= items.getValue()){
+                totalSum+=(product.getPrice()*items.getValue());
+                OrderItems orderItem=new OrderItems();
+                orderItem.setOrders(orders);
+                orderItem.setProduct(product);
+                orderItem.setQuantity(items.getValue());
+                orderItems.add(orderItem);
+                orderItemsDTOS.add(new OrderItemsDTO(product.getName(),product.getPrice(),items.getValue()));
+//                now since we ahave ordered the items it count will reduce
+                product.setStockQuantity(product.getStockQuantity()- items.getValue());
+//                productRepostiory.save(product);
+            }else {
+                 throw  new InsufficientItemException("Product with id "+items.getKey().toString()+" with quantity "+items.getValue().toString()+" Insufficient ");
+            }
+
+
         }
         orders.setTotalAmount(totalSum);
         orders.setOrderItems(orderItems);

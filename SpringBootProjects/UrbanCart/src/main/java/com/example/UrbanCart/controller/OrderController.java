@@ -32,10 +32,10 @@ public class OrderController {
     OrderDTO placeOrder(@RequestBody OrderRequest orderRequest){
          return orderService.placeOrder(orderRequest);
     }
-
-    @PostMapping("/{userId}")
-    List<OrderDTO>getAllOrderByUser(@PathVariable("userId")Long userId){
-        List<Orders>allOrders=orderService.getAllOrderByUserId(userId);
-
-    }
+//
+//    @PostMapping("/{userId}")
+//    List<OrderDTO>getAllOrderByUser(@PathVariable("userId")Long userId){
+//        List<Orders>allOrders=orderService.getAllOrderByUserId(userId);
+//
+//    }
 }

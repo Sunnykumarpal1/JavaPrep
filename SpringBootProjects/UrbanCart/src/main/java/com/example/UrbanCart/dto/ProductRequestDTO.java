@@ -1,30 +1,28 @@
-package com.example.UrbanCart.entity;
+package com.example.UrbanCart.dto;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "products")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
+public class ProductRequestDTO {
+    private  String name;
     private String description;
     private Double price;
     private String imageUrl;
     private String category;
-    @Column(nullable = false)
     private Integer stockQuantity;
 
-    public Long getId() {
-        return id;
+    public ProductRequestDTO(String name, String description, Double price, String imageUrl, String category, Integer stockQuantity) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.category = category;
+        this.stockQuantity = stockQuantity;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Integer getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(Integer stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
     public String getName() {
@@ -65,13 +63,5 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public Integer getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(Integer stockQuantity) {
-        this.stockQuantity = stockQuantity;
     }
 }
