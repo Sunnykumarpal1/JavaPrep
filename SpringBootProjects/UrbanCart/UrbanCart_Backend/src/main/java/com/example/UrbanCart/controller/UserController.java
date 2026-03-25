@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,8 +31,8 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponseDTO> registerUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
         User user = userMapping.toUser(userRequestDTO);
-        userService.registerUser(user);
-        UserResponseDTO userResponseDTO = userMapping.toUserResponse(user);
+        User savedUser = userService.registerUser(user);
+        UserResponseDTO userResponseDTO = userMapping.toUserResponse(savedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDTO);
     }
 

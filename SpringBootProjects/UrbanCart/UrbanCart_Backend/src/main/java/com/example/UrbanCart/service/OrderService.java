@@ -3,6 +3,7 @@ package com.example.UrbanCart.service;
 import com.example.UrbanCart.Exception.InsufficientItemException;
 import com.example.UrbanCart.Exception.ProductNotFoundException;
 import com.example.UrbanCart.Exception.UserNotFoundException;
+import com.example.UrbanCart.Mapper.OrderMapping;
 import com.example.UrbanCart.dto.OrderDTO;
 import com.example.UrbanCart.dto.OrderItemsDTO;
 import com.example.UrbanCart.dto.OrderRequest;
@@ -30,10 +31,13 @@ public class OrderService {
 
     private OrderRepository orderRepository;
 
-    public OrderService(UserRepository userRepository, ProductRepostiory productRepostiory, OrderRepository orderRepository) {
+    private OrderMapping orderMapping;
+
+    public OrderService(UserRepository userRepository, ProductRepostiory productRepostiory, OrderRepository orderRepository, OrderMapping orderMapping) {
         this.userRepository = userRepository;
         this.productRepostiory = productRepostiory;
         this.orderRepository = orderRepository;
+        this.orderMapping = orderMapping;
     }
 
     @Transactional
@@ -77,7 +81,16 @@ public class OrderService {
         return new OrderDTO(savedOrder.getId(),savedOrder.getOrderDate(), savedOrder.getTotalAmount(), savedOrder.getOrderStatus(),userId,orderItemsDTOS);
     }
 
-    public List<Orders> getAllOrderByUserId(Long userId) {
-       return  orderRepository.findByUserId(userId);
+    public List<OrderDTO> getAllOrderByUserId(Long userId) {
+         List<Orders>list= orderRepository.findByUserId(userId);
+         List<OrderDTO>orderDTOS=list.stream().map(e->orderMapping.toOrderDTO(e)).toList();
+         return orderDTOS;
+    }
+
+    public List<OrderDTO> getAllOrders() {
+//        List<Orders>orders=orderRepository.findAll();
+        List<Orders>orders=orderRepository.getOrderByUser();
+        List<OrderDTO>orderDTOS=orders.stream().map(e->orderMapping.toOrderDTO(e)).toList();
+        return orderDTOS;
     }
 }

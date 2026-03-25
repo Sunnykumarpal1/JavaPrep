@@ -21,6 +21,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    ResponseEntity<ErrorResponseMessage>userAlreadyExists(UserAlreadyExistsException exp){
+        ErrorResponseMessage error = new ErrorResponseMessage(exp.getMessage(), HttpStatus.CONFLICT.value());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(ProductNotFoundException.class)
     ResponseEntity<ErrorResponseMessage>peroductNotExist(ProductNotFoundException  exp){
         ErrorResponseMessage error=new ErrorResponseMessage(exp.getMessage(),HttpStatus.NOT_FOUND.value());

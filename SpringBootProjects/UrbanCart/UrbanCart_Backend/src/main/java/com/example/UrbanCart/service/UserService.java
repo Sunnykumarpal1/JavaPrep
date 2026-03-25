@@ -1,9 +1,8 @@
 package com.example.UrbanCart.service;
 
+import com.example.UrbanCart.Exception.UserAlreadyExistsException;
 import com.example.UrbanCart.entity.User;
 import com.example.UrbanCart.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +17,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void registerUser(User user) {
-        try{
-            userRepository.save(user);
-        }catch (Exception ex){
-            ex.printStackTrace();
+    public User registerUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new UserAlreadyExistsException("User with this email already exists");
         }
-
+        return userRepository.save(user);
     }
 
     public User getUserByEmail(String email) {
@@ -37,7 +34,6 @@ public class UserService {
     }
 
     @Transactional
-    @Modifying
     public void deleteUser(String email) {
           userRepository.deleteByEmail(email);
     }

@@ -10,7 +10,9 @@ import com.example.UrbanCart.entity.User;
 import com.example.UrbanCart.repository.ProductRepostiory;
 import com.example.UrbanCart.repository.UserRepository;
 import com.example.UrbanCart.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.parser.Entity;
@@ -27,15 +29,19 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-
     @PostMapping
-    OrderDTO placeOrder(@RequestBody OrderRequest orderRequest){
+    public OrderDTO placeOrder(@Valid @RequestBody OrderRequest orderRequest){
          return orderService.placeOrder(orderRequest);
     }
-//
-//    @PostMapping("/{userId}")
-//    List<OrderDTO>getAllOrderByUser(@PathVariable("userId")Long userId){
-//        List<Orders>allOrders=orderService.getAllOrderByUserId(userId);
-//
-//    }
+
+    @GetMapping("/{userId}")
+    public List<OrderDTO>getAllOrderByUser(@PathVariable("userId")Long userId){
+        return orderService.getAllOrderByUserId(userId);
+    }
+
+    @GetMapping()
+    public List<OrderDTO>getAllOrders(){
+        return orderService.getAllOrders();
+    }
+
 }
