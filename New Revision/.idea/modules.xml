@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Core Java/Core Java.iml" filepath="$PROJECT_DIR$/Core Java/Core Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Cursor/Cursor.iml" filepath="$PROJECT_DIR$/Cursor/Cursor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/New Revision.iml" filepath="$PROJECT_DIR$/.idea/New Revision.iml" />
+    </modules>
+  </component>
+</project>
